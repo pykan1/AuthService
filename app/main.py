@@ -2,6 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from endpoint import auth_service
+
 
 def create_app() -> FastAPI():
     app = FastAPI()
@@ -16,9 +18,7 @@ def create_app() -> FastAPI():
         allow_headers=["*"]
     )
 
-    @app.get("/")
-    async def hi():
-        return "hi"
+    app.include_router(auth_service)
 
     return app
 
