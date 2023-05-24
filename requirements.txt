@@ -30,3 +30,4 @@ urllib3
 uvicorn~=0.22.0
 wheel==0.40.0
 pydantic~=1.10.7
+fastapi-jwt-auth
