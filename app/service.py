@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 from model import RegAuthModel
 from repository import Repository
 
@@ -7,6 +9,6 @@ class Service:
         self._repository = repository
 
     def register(self, user: RegAuthModel):
-        self._repository.person_register(user)
+        return self._repository.person_register(user)
 
 

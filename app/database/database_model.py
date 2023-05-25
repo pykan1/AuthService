@@ -34,9 +34,10 @@ class Person(Base):
 class Token(Base):
     __tablename__ = 'token'
 
-    id_person = Column(Integer, ForeignKey('person.id_person'), nullable=False)
+    id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
     access_token = Column(String(1000), nullable=False)
     refresh_token = Column(String(1000), nullable=False)
+    id_token = Column(Integer, primary_key=True)
 
     person = relationship('Person')
 
@@ -44,10 +45,10 @@ class Token(Base):
 class PersonItems(Base):
     __tablename__ = 'person_items'
 
-    id_person = Column(Integer, ForeignKey('person.id_person'), nullable=False)
-    favorite = Column(JSONB)
-    basket = Column(JSONB)
-
+    id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
+    favorite = Column(Text)
+    basket = Column(Text)
+    id_person_items = Column(Integer, primary_key=True)
     person = relationship('Person')
 
 
