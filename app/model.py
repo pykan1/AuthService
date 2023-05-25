@@ -28,19 +28,8 @@ class PersonResponse(BaseModel):
     __basket: str | None
     __access_token: str
 
-    def __init__(self,
-                 login: str,
-                 role: int,
-                 favorite: str | None,
-                 basket: str | None,
-                 access_token: str,
-                 **data: Any):
-        super().__init__(**data)
-        self.__login = login
-        self.__role = role
-        self.__favorite = favorite
-        self.__basket = basket
-        self.__access_token = access_token
+    def get_return(self):
+        return self
 
     def get_login(self):
         return self.__login
@@ -57,8 +46,23 @@ class PersonResponse(BaseModel):
     def get_role(self):
         return self.__role
 
-    login = property(get_login)
-    role = property(get_role)
-    favorite = property(get_favorite)
-    basket = property(get_basket)
-    access_token = property(get_access_token)
+    def set_login(self, new: str):
+        self.__login = new
+
+    def set_favorite(self, new: str):
+        self.__favorite = new
+
+    def set_basket(self, new: str):
+        self.__basket = new
+
+    def set_access_token(self, new: str):
+        self.__access_token = new
+
+    def set_role(self, new: int):
+        self.__role = new
+
+    login = property(get_login, set_login)
+    role = property(get_role, set_role)
+    favorite = property(get_favorite, set_favorite)
+    basket = property(get_basket, set_basket)
+    access_token = property(get_access_token, set_access_token)

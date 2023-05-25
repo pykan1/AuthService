@@ -4,25 +4,13 @@ from database.database_repository import DatabaseRepository
 from password.password_repository import Password
 
 
-class RegisterRepository(PersonResponse, TokenRepository, DatabaseRepository, Password):
+class RegisterRepository(PersonResponse):
 
-    def register(self, user: RegAuthModel) -> PersonResponse:
-        access_token = self.create_access_token(user.login)
-        refresh_token = self.create_refresh_token(user.login)
-        password = self.get_password_hash(user.password)
+    def register(self, user: RegAuthModel, access_token, basket=None, favorite=None) -> PersonResponse:
+        super().login(user.login)
+        super().role(user.id_role)
+        super().access_token(access_token)
+        super().basket(basket)
+        super().favorite(favorite)
 
-        self.__init__(
-            login=user.login,
-            role=user.id_role,
-            favorite=None,
-            basket=None,
-            access_token=access_token,
-        )
-
-        self.new_person(
-            p=self,
-            password=password,
-            refresh_token=refresh_token
-        )
-
-        return self
+        return super()
