@@ -31,10 +31,10 @@ class Repository:
             user=user,
             id_person=id_person,
             access_token=access_token
-        ),
+        )
         self._databaseRepository.new_person(
             id_person=id_person,
-            p=person[0],
+            p=person,
             password=password,
             refresh_token=refresh_token
         )

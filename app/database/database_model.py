@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from psycopg2.extensions import JSONB
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -23,7 +25,7 @@ class Category(Base):
 class Person(Base):
     __tablename__ = 'person'
 
-    id_person = Column(Integer, nullable=False, primary_key=True)
+    id_person = Column(String(1000), nullable=False, primary_key=True)
     id_role = Column(Integer, ForeignKey('role.id_role'), nullable=False)
     login = Column(String(20), nullable=False)
     user_password = Column(String(1000), nullable=False)
@@ -34,7 +36,7 @@ class Person(Base):
 class Token(Base):
     __tablename__ = 'token'
 
-    id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
+    id_person = Column(String(1000), ForeignKey('person.id_person'), primary_key=True, nullable=False)
     access_token = Column(String(1000), nullable=False)
     refresh_token = Column(String(1000), nullable=False)
 
@@ -44,7 +46,7 @@ class Token(Base):
 class PersonItems(Base):
     __tablename__ = 'person_items'
 
-    id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
+    id_person = Column(String(1000), ForeignKey('person.id_person'), primary_key=True, nullable=False)
     favorite = Column(Text)
     basket = Column(Text)
     person = relationship('Person')

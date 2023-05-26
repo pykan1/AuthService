@@ -9,6 +9,7 @@ class RegisterRepository(PersonResponse):
 
     def register(self, user: RegAuthModel, access_token, id_person, basket=None, favorite=None) -> PersonResponse:
         self.get_model(id_person, user.login, user.id_role, access_token, basket, favorite)
+        print(self)
         return self
 
     @staticmethod

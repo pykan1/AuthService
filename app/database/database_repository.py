@@ -37,7 +37,7 @@ class DatabaseRepository(TokenRepository):
     @staticmethod
     def get_person_by_login(login):
         with SessionLocal() as session:
-            return session.query(Person).filter_by(login=login).one()
+            return session.query(Person).filter_by(login=login).all()
 
 
     @staticmethod
