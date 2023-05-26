@@ -23,7 +23,7 @@ class Category(Base):
 class Person(Base):
     __tablename__ = 'person'
 
-    id_person = Column(Integer, primary_key=True)
+    id_person = Column(Integer, nullable=False, primary_key=True)
     id_role = Column(Integer, ForeignKey('role.id_role'), nullable=False)
     login = Column(String(20), nullable=False)
     user_password = Column(String(1000), nullable=False)
@@ -37,7 +37,6 @@ class Token(Base):
     id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
     access_token = Column(String(1000), nullable=False)
     refresh_token = Column(String(1000), nullable=False)
-    id_token = Column(Integer, primary_key=True)
 
     person = relationship('Person')
 
@@ -48,7 +47,6 @@ class PersonItems(Base):
     id_person = Column(Integer, ForeignKey('person.id_person'), primary_key=True, nullable=False)
     favorite = Column(Text)
     basket = Column(Text)
-    id_person_items = Column(Integer, primary_key=True)
     person = relationship('Person')
 
 

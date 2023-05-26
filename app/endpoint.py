@@ -22,3 +22,9 @@ async def register(
 ):
     service = Service(Repository())
     return service.register(user)
+
+
+@auth_service.post("/update_refresh_token")
+async def new_access_token(refresh_token: str):
+    service = Service(Repository())
+    return service.update_access_token(refresh_token)

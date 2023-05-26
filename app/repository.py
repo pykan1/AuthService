@@ -23,19 +23,28 @@ class Repository:
         ...
 
     def person_register(self, user: RegAuthModel):
-        password = self._passwordRepository.get_password_hash(user.password)
+        id_person = self._registerRepository.create_id()
+        password = self._passwordRepository.create_password(user.password)
         access_token = self._tokenRepository.create_access_token(user.login)
         refresh_token = self._tokenRepository.create_refresh_token(user.login)
         person = self._registerRepository.register(
             user=user,
+            id_person=id_person,
             access_token=access_token
         ),
         self._databaseRepository.new_person(
+            id_person=id_person,
             p=person[0],
             password=password,
             refresh_token=refresh_token
         )
         return person
 
-    def update_access_token(self, refresh_token):
-        ...
+    def update_access_token(self, refresh_token) -> str:
+        login = self._tokenRepository.get_login(refresh_token)
+        new_access_token = self._tokenRepository.create_access_token(login)
+        self._databaseRepository.update_access_token(
+            refresh_token=refresh_token,
+            new_access_token=new_access_token
+        )
+        return new_access_token

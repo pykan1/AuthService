@@ -11,11 +11,8 @@ class Password(DatabaseRepository):
         return pwd_context.verify(plain_password, hashed_password)
 
     @staticmethod
-    def get_password_hash(password):  # хэшится пароль
+    def create_password(password) -> str:  # хэшится пароль
         return pwd_context.hash(password)
-
-    def create_password(self, login, password: str) -> str:
-        ...
 
     def authenticate_user(self, login: str, password: str):
         user = self.get_person_by_login(login)
@@ -24,4 +21,3 @@ class Password(DatabaseRepository):
         if not self.verify_password(password, user.user_password):
             return False
         return user
-

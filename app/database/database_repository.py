@@ -50,18 +50,21 @@ class DatabaseRepository(TokenRepository):
             # не дописано
 
     @staticmethod
-    def new_person(p: PersonResponse, password: str, refresh_token: str) -> None:
+    def new_person(p: PersonResponse, password: str, refresh_token: str, id_person: str) -> None:
         with SessionLocal() as session:
             session.add(Person(
+                id_person=id_person,
                 login=p.login,
                 id_role=p.role,
                 user_password=password
             ))
             session.add(PersonItems(
+                id_person=id_person,
                 favorite=p.favorite,
                 basket=p.basket
             ))
             session.add(Token(
+                id_person=id_person,
                 refresh_token=refresh_token,
                 access_token=p.access_token
             ))
@@ -72,9 +75,8 @@ class DatabaseRepository(TokenRepository):
         with SessionLocal() as session:
             return session.query(Token).filter_by(refresh_token=token).one().id_person
 
-    def update_access_token(self, refresh_token: str) -> None:
+    def update_access_token(self, refresh_token: str, new_access_token: str) -> None:
         with SessionLocal() as session:
-            new_access_token = self.create_access_token("bruh")
             id_person = self.get_id_person(refresh_token)
             session.query(Token).filter_by(id_person=id_person).update({
                 "access_token": new_access_token

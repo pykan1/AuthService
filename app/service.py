@@ -11,4 +11,7 @@ class Service:
     def register(self, user: RegAuthModel):
         return self._repository.person_register(user)
 
+    def update_access_token(self, refresh_token):
+        return self._repository.update_access_token(refresh_token)
+
 

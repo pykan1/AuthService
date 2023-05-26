@@ -22,6 +22,7 @@ class Items(BaseModel):
 
 
 class PersonResponse(BaseModel):
+    id_person: str = ""
     login: str = ""
     role: int = 1
     favorite: str | None
@@ -30,12 +31,14 @@ class PersonResponse(BaseModel):
 
     def get_model(
             self,
+            id_person: str,
             login: str,
             id_role: int,
             access_token: str,
             basket: str,
             favorite: str
     ):
+        self.id_person = id_person
         self.login = login
         self.role = id_role
         self.access_token = access_token
