@@ -13,7 +13,6 @@ class Middleware:
                 raise HTTPException(status_code=420, detail="this login is busy")
             else:
                 return function(args[0], args[1])
-
         return output
 
 
