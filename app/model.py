@@ -21,7 +21,7 @@ class Items(BaseModel):
     basket: str
 
 
-class PersonResponse(BaseModel):
+class PersonModel(BaseModel):
     id_person: str = ""
     login: str = ""
     role: int = 1
@@ -44,3 +44,8 @@ class PersonResponse(BaseModel):
         self.access_token = access_token
         self.basket = basket
         self.favorite = favorite
+
+
+class PersonResponse(BaseModel):
+    person: PersonModel | None
+    refresh_token: str | None

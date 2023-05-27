@@ -19,7 +19,7 @@ conn = engine.connect()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-class DatabaseRepository(TokenRepository):
+class DatabaseRepository:
 
     @staticmethod
     def get_db():
@@ -35,22 +35,17 @@ class DatabaseRepository(TokenRepository):
         return db
 
     @staticmethod
-    def get_person_by_login(login):
-        with SessionLocal() as session:
-            return session.query(Person).filter_by(login=login).all()
-
-
-    @staticmethod
-    def get_person_by_token(access_token: str) -> PersonResponse:
+    def get_person_by_token(access_token: str) -> PersonModel:
         with SessionLocal() as session:
             token = session.query(Token).filter_by(access_token=access_token).one()
             id_person = token.id_person
             refresh_token = token.refresh_token
-            person_plus_person_items = session.query(Person).join(PersonItems).filter_by(PersonItems.id_person == id_person).all()
+            person_plus_person_items = session.query(Person).join(PersonItems).filter_by(
+                PersonItems.id_person == id_person).all()
             # не дописано
 
     @staticmethod
-    def new_person(p: PersonResponse, password: str, refresh_token: str, id_person: str) -> None:
+    def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str) -> None:
         with SessionLocal() as session:
             session.add(Person(
                 id_person=id_person,
@@ -71,9 +66,24 @@ class DatabaseRepository(TokenRepository):
             session.commit()
 
     @staticmethod
-    def get_id_person(token: str) -> int:
+    def get_id_person(token: str) -> str:
         with SessionLocal() as session:
             return session.query(Token).filter_by(refresh_token=token).one().id_person
+
+    @staticmethod
+    def get_person_by_login(login: str):
+        return (
+            SessionLocal()
+            .query(Person, PersonItems, Token)
+            .join(Token, Person.id_person == Token.id_person)
+            .join(PersonItems, Person.id_person == PersonItems.id_person)
+            .filter(Person.login == login)
+            .first()
+        )
+
+    @staticmethod
+    def get_all_field(id_person):
+        return
 
     def update_access_token(self, refresh_token: str, new_access_token: str) -> None:
         with SessionLocal() as session:

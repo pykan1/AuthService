@@ -24,6 +24,14 @@ async def register(
     return service.register(user)
 
 
+@auth_service.post("/login")
+async def login(
+        user: RegAuthModel
+):
+    service = Service(Repository())
+    return service.login(user)
+
+
 @auth_service.post("/update_refresh_token")
 async def new_access_token(refresh_token: str):
     service = Service(Repository())
