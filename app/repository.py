@@ -24,9 +24,9 @@ class Repository:
         self._passwordRepository = Password()
         self._personResponse = PersonResponse()
 
-    def person_login(self, user: RegAuthModel):
+    def person_login(self, user: RegAuthModel, person):
         # person - кортеж из 3 объектов таблица Person, PersonItems, Token
-        person = self._databaseRepository.get_person_by_login(user.login)
+        # person = self._databaseRepository.get_person_by_login(user.login)
         new_access_token = self._tokenRepository.create_access_token(user.login)
 
         self._databaseRepository.update_access_token(

@@ -27,7 +27,7 @@ class Middleware:
             if not self._passwordRepository.verify_password(args[1].password, person[0].user_password):
                 raise HTTPException(status_code=420, detail="wrong password")
             else:
-                return function(args[0], args[1])
+                return function(args[0], args[1], person)
         return output
 
 
