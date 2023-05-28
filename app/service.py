@@ -15,7 +15,7 @@ class Service:
     def register(self, user: RegAuthModel):
         return self._repository.person_register(user)
 
-    @middleware.handler_password
+    @middleware.handler_register
     def login(self, user: RegAuthModel, person: PersonResponse):
         return self._repository.person_login(user, person)
 
