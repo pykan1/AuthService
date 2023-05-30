@@ -77,8 +77,7 @@ class DatabaseRepository:
             .query(Person, PersonItems, Token)
             .join(Token, Person.id_person == Token.id_person)
             .join(PersonItems, Person.id_person == PersonItems.id_person)
-            .filter(Person.login == login)
-            .first()
+            .filter(Person.login == login).first()
         )
 
     @staticmethod

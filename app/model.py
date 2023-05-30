@@ -21,6 +21,15 @@ class Items(BaseModel):
     basket: str
 
 
+class ItemModel(BaseModel):
+    id_item: str = ""
+    id_category: int = 0
+    name: str = ""
+    description: str = ""
+    reviews: str = ""
+    amount: int = 0
+
+
 class PersonModel(BaseModel):
     id_person: str = ""
     login: str = ""
