@@ -31,5 +31,3 @@ class Middleware:
             else:
                 return function(args[0], args[1], person)
         return output
-
-
