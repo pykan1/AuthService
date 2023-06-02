@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from endpoint import *
+from app.endpoint import *
 
 
 def create_app() -> FastAPI():

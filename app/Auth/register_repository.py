@@ -1,7 +1,6 @@
 from fastapi import Depends
 
-from Token.token_repository import TokenRepository
-from model import *
+from app.model import *
 import uuid
 
 

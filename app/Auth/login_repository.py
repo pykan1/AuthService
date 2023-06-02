@@ -1,4 +1,4 @@
-from model import *
+from app.model import *
 
 
 class LoginRepository(PersonModel):

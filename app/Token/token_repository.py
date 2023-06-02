@@ -5,7 +5,7 @@ from fastapi import Depends
 from fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 
-from container import Container
+from app.container import Container
 
 
 class TokenRepository(BaseModel):

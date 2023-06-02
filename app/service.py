@@ -1,7 +1,7 @@
 from pydantic import BaseModel
-from middleware import Middleware
-from model import *
-from repository import Repository
+from app.middleware import Middleware
+from app.model import *
+from app.repository import Repository
 import time
 
 

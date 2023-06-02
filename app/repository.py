@@ -5,12 +5,12 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from Auth.login_repository import LoginRepository
-from Auth.register_repository import RegisterRepository
-from Token.token_repository import TokenRepository
-from database.database_repository import DatabaseRepository
-from model import *
-from password.password_repository import Password
+from app.Auth.login_repository import LoginRepository
+from app.Auth.register_repository import RegisterRepository
+from app.Token.token_repository import TokenRepository
+from app.database.database_repository import DatabaseRepository
+from app.model import *
+from app.password.password_repository import Password
 
 
 class Repository:
