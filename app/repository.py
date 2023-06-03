@@ -26,7 +26,11 @@ class Repository:
 
     def person_login(self, user: RegAuthModel, person):
         # person - кортеж из 3 объектов таблица Person, PersonItems, Token
-        new_access_token = self._tokenRepository.create_access_token(user.login)
+        new_access_token = self._tokenRepository.create_access_token(
+            login=user.login,
+            id_role=person[0].id_role,
+            uuid=str(person[0].id_person)
+        )
 
         self._databaseRepository.update_access_token(
             refresh_token=person[2].refresh_token,
@@ -48,9 +52,17 @@ class Repository:
     def person_register(self, user: RegAuthModel):
         id_person = self._registerRepository.create_id()
         password = self._passwordRepository.create_password(user.password)
-        access_token = self._tokenRepository.create_access_token(user.login)
+        access_token = self._tokenRepository.create_access_token(
+            login=user.login,
+            id_role=user.id_role,
+            uuid=str(id_person)
+        )
 
-        self._personResponse.refresh_token = self._tokenRepository.create_refresh_token(user.login)
+        self._personResponse.refresh_token = self._tokenRepository.create_refresh_token(
+            login=user.login,
+            id_role=user.id_role,
+            uuid=str(id_person)
+        )
         self._personResponse.person = self._registerRepository.register(
             user=user,
             id_person=id_person,
@@ -67,8 +79,11 @@ class Repository:
         return self._personResponse
 
     def update_access_token(self, refresh_token) -> str:
-        login = self._tokenRepository.get_login(refresh_token)
-        new_access_token = self._tokenRepository.create_access_token(login)
+        data = self._tokenRepository.get_token_data(refresh_token)
+        new_access_token = self._tokenRepository.create_access_token(login=data["sub"],
+                                                                     id_role=data["id_role"],
+                                                                     uuid=data["uuid"]
+                                                                     )
 
         self._databaseRepository.update_access_token(
             refresh_token=refresh_token,
