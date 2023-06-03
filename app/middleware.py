@@ -4,7 +4,7 @@ from database.database_repository import DatabaseRepository
 from fastapi import HTTPException
 import time
 
-from app.password.password_repository import Password
+from password.password_repository import Password
 
 
 class Middleware:

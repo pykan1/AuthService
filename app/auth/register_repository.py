@@ -1,6 +1,6 @@
 from fastapi import Depends
 
-from app.model import *
+from model import *
 import uuid
 
 

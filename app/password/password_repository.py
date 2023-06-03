@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 
-from app.database.database_repository import DatabaseRepository
+from database.database_repository import DatabaseRepository
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

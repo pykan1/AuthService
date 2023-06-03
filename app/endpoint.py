@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
 
-from app.model import RegAuthModel, Settings
-from app.repository import Repository
-from app.service import Service
+from model import RegAuthModel, Settings
+from repository import Repository
+from service import Service
 
 auth_service = APIRouter(
     tags=["Authorization"],

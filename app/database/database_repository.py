@@ -5,8 +5,8 @@ from fastapi import Depends
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from app.database.database_model import *
-from app.model import *
+from database.database_model import *
+from model import *
 
 meta = MetaData()
 engine = create_engine(Container().db["url"], echo=True)

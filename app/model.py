@@ -2,7 +2,7 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from app.container import Container
+from container import Container
 
 
 class Settings(BaseModel):
