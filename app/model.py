@@ -34,8 +34,8 @@ class PersonModel(BaseModel):
     id_person: str = ""
     login: str = ""
     role: int = 1
-    favorite: str = "[]"
-    basket: str = "[]"
+    favorite: list = []
+    basket: list = []
     access_token: str = ""
 
     def get_model(
@@ -44,9 +44,13 @@ class PersonModel(BaseModel):
             login: str,
             id_role: int,
             access_token: str,
-            basket: str = "[]",
-            favorite: str = "[]"
+            basket=None,
+            favorite=None
     ):
+        if basket is None:
+            basket = []
+        if favorite is None:
+            favorite = []
         print(self.favorite)
         self.id_person = id_person
         self.login = login

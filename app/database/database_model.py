@@ -3,6 +3,7 @@ from uuid import UUID
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, ARRAY, UUID, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from sqlalchemy.dialects.postgresql import JSONB
 
 Base = declarative_base()
 
@@ -59,6 +60,6 @@ class PersonItems(Base):
     __tablename__ = 'person_items'
 
     id_person = Column(UUID, ForeignKey('person.id_person'), primary_key=True, nullable=False)
-    favorite = Column(Text, nullable=True)
-    basket = Column(Text, nullable=True)
+    favorite = Column(JSONB, nullable=True)
+    basket = Column(JSONB, nullable=True)
     person = relationship('Person')
