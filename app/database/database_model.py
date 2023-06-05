@@ -62,4 +62,5 @@ class PersonItems(Base):
     id_person = Column(UUID, ForeignKey('person.id_person'), primary_key=True, nullable=False)
     favorite = Column(JSONB, nullable=True)
     basket = Column(JSONB, nullable=True)
+    reviews = Column(JSONB, nullable=True)
     person = relationship('Person')
