@@ -36,6 +36,8 @@ class PersonModel(BaseModel):
     role: int = 1
     favorite: list = []
     basket: list = []
+    orders: list = []
+    reviews: list = []
     access_token: str = ""
 
     def get_model(
@@ -45,8 +47,14 @@ class PersonModel(BaseModel):
             id_role: int,
             access_token: str,
             basket=None,
-            favorite=None
+            favorite=None,
+            orders=None,
+            reviews=None
     ):
+        if reviews is None:
+            reviews = []
+        if orders is None:
+            orders = []
         if basket is None:
             basket = []
         if favorite is None:
@@ -58,6 +66,8 @@ class PersonModel(BaseModel):
         self.access_token = access_token
         self.basket = basket
         self.favorite = favorite
+        self.reviews = reviews
+        self.orders = orders
 
 
 class PersonResponse(BaseModel):

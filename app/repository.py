@@ -44,7 +44,9 @@ class Repository:
             access_token=new_access_token,
             id_person=person[0].id_person,
             basket=person[1].basket,
-            favorite=person[1].favorite
+            favorite=person[1].favorite,
+            reviews=person[1].reviews,
+            orders=person[1].reviews
         )
 
         return self._personResponse
