@@ -63,4 +63,5 @@ class PersonItems(Base):
     favorite = Column(JSONB, nullable=True)
     basket = Column(JSONB, nullable=True)
     reviews = Column(JSONB, nullable=True)
+    orders = Column(JSONB, nullable=True)
     person = relationship('Person')

@@ -43,7 +43,6 @@ class DatabaseRepository:
 
     @staticmethod
     def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str) -> None:
-        print(f"aaaa {p.favorite, p.basket}")
         with SessionLocal() as session:
             session.add(Person(
                 id_person=id_person,
