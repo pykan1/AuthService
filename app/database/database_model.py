@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, ARRAY, UUID, JSON
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, ARRAY, UUID, JSON, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import JSONB
@@ -52,6 +52,8 @@ class Item(Base):
     description = Column(Text)
     reviews = Column(Text)
     amount = Column(Integer, nullable=False)
+    cost = Column(Integer, nullable=True)
+    rate = Column(Float, nullable=True)
 
     category = relationship('Category')
 
