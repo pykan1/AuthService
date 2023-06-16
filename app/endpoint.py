@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi_jwt_auth import AuthJWT
+from sqlalchemy.orm import Session
 
+from database.database_repository import DatabaseRepository
 from model import RegAuthModel, Settings
 from repository import Repository
 from service import Service
@@ -18,21 +20,26 @@ def get_config():
 
 @auth_service.post("/register")
 async def register(
-        user: RegAuthModel
+        user: RegAuthModel,
+        db: Session = Depends(DatabaseRepository().get_db)
 ):
     service = Service(Repository())
-    return service.register(user)
+    return service.register(user, db)
 
 
 @auth_service.post("/login")
 async def login(
-        user: RegAuthModel
+        user: RegAuthModel,
+        db: Session = Depends(DatabaseRepository().get_db)
 ):
     service = Service(Repository())
-    return service.login(user)
+    return service.login(user, db)
 
 
 @auth_service.post("/update_refresh_token")
-async def new_access_token(refresh_token: str):
+async def new_access_token(
+        refresh_token: str,
+        db: Session = Depends(DatabaseRepository().get_db)
+):
     service = Service(Repository())
-    return service.update_access_token(refresh_token)
+    return service.update_access_token(refresh_token, db)

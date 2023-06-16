@@ -1,12 +1,7 @@
-import datetime
-import os
-import time
-from typing import Any
+from sqlalchemy.orm import Session
 
-from pydantic import BaseModel
-
-from auth.login_repository import LoginRepository
-from auth.register_repository import RegisterRepository
+from Auth.login_repository import LoginRepository
+from Auth.register_repository import RegisterRepository
 from Token.token_repository import TokenRepository
 from database.database_repository import DatabaseRepository
 from model import *
@@ -24,7 +19,7 @@ class Repository:
         self._passwordRepository = Password()
         self._personResponse = PersonResponse()
 
-    def person_login(self, user: RegAuthModel, person):
+    def person_login(self, user: RegAuthModel, person, db: Session):
         # person - кортеж из 3 объектов таблица Person, PersonItems, Token
         new_access_token = self._tokenRepository.create_access_token(
             login=user.login,
@@ -34,7 +29,8 @@ class Repository:
 
         self._databaseRepository.update_access_token(
             refresh_token=person[2].refresh_token,
-            new_access_token=new_access_token
+            new_access_token=new_access_token,
+            db=db
         )
 
         self._personResponse.refresh_token = person[2].refresh_token
@@ -51,7 +47,7 @@ class Repository:
 
         return self._personResponse
 
-    def person_register(self, user: RegAuthModel):
+    def person_register(self, user: RegAuthModel, db: Session):
         id_person = self._registerRepository.create_id()
         password = self._passwordRepository.create_password(user.password)
         access_token = self._tokenRepository.create_access_token(
@@ -75,12 +71,13 @@ class Repository:
             id_person=id_person,
             p=self._personResponse.person,
             password=password,
-            refresh_token=self._personResponse.refresh_token
+            refresh_token=self._personResponse.refresh_token,
+            db=db
         )
 
         return self._personResponse
 
-    def update_access_token(self, refresh_token) -> str:
+    def update_access_token(self, refresh_token, db: Session) -> str:
         data = self._tokenRepository.get_token_data(refresh_token)
         new_access_token = self._tokenRepository.create_access_token(login=data["sub"],
                                                                      id_role=data["id_role"],
@@ -89,7 +86,8 @@ class Repository:
 
         self._databaseRepository.update_access_token(
             refresh_token=refresh_token,
-            new_access_token=new_access_token
+            new_access_token=new_access_token,
+            db=db
         )
 
         return new_access_token

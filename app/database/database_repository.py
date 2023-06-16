@@ -1,6 +1,3 @@
-import datetime
-
-import jwt
 from fastapi import Depends
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker, Session
@@ -42,35 +39,33 @@ class DatabaseRepository:
             # не дописано
 
     @staticmethod
-    def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str) -> None:
-        with SessionLocal() as session:
-            session.add(Person(
-                id_person=id_person,
-                login=p.login,
-                id_role=p.role,
-                user_password=password
-            ))
-            session.add(PersonItems(
-                id_person=id_person,
-                favorite=p.favorite,
-                basket=p.basket
-            ))
-            session.add(Token(
-                id_person=id_person,
-                refresh_token=refresh_token,
-                access_token=p.access_token
-            ))
-            session.commit()
+    def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str, db: Session) -> None:
+        db.add(Person(
+            id_person=id_person,
+            login=p.login,
+            id_role=p.role,
+            user_password=password
+        ))
+        db.add(PersonItems(
+            id_person=id_person,
+            favorite=p.favorite,
+            basket=p.basket
+        ))
+        db.add(Token(
+            id_person=id_person,
+            refresh_token=refresh_token,
+            access_token=p.access_token
+        ))
+        db.commit()
 
     @staticmethod
-    def get_id_person(token: str) -> str:
-        with SessionLocal() as session:
-            return session.query(Token).filter_by(refresh_token=token).one().id_person
+    def get_id_person(token: str, db: Session) -> str:
+        return db.query(Token).filter_by(refresh_token=token).one().id_person
 
     @staticmethod
-    def get_person_by_login(login: str):
+    def get_person_by_login(login: str, db: Session):
         return (
-            SessionLocal()
+            db
             .query(Person, PersonItems, Token)
             .join(Token, Person.id_person == Token.id_person)
             .join(PersonItems, Person.id_person == PersonItems.id_person)
@@ -81,10 +76,9 @@ class DatabaseRepository:
     def get_all_field(id_person):
         return
 
-    def update_access_token(self, refresh_token: str, new_access_token: str) -> None:
-        with SessionLocal() as session:
-            id_person = self.get_id_person(refresh_token)
-            session.query(Token).filter_by(id_person=id_person).update({
+    def update_access_token(self, refresh_token: str, new_access_token: str, db: Session) -> None:
+            id_person = self.get_id_person(refresh_token, db)
+            db.query(Token).filter_by(id_person=id_person).update({
                 "access_token": new_access_token
             })
-            session.commit()
+            db.commit()
