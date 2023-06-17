@@ -54,6 +54,7 @@ class Item(Base):
     amount = Column(Integer, nullable=False)
     cost = Column(Integer, nullable=True)
     rate = Column(Float, nullable=True)
+    img = Column(Text, nullable=False)
 
     category = relationship('Category')
 
