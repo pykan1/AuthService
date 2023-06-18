@@ -3,7 +3,7 @@ from fastapi_jwt_auth import AuthJWT
 from sqlalchemy.orm import Session
 
 from database.database_repository import DatabaseRepository
-from model import RegAuthModel, Settings
+from model import RegModel, Settings, AuthModel
 from repository import Repository
 from service import Service
 
@@ -20,7 +20,7 @@ def get_config():
 
 @auth_service.post("/register")
 async def register(
-        user: RegAuthModel,
+        user: RegModel,
         db: Session = Depends(DatabaseRepository().get_db)
 ):
     service = Service(Repository())
@@ -29,7 +29,7 @@ async def register(
 
 @auth_service.post("/login")
 async def login(
-        user: RegAuthModel,
+        user: AuthModel,
         db: Session = Depends(DatabaseRepository().get_db)
 ):
     service = Service(Repository())

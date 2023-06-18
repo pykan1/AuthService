@@ -9,9 +9,16 @@ class Settings(BaseModel):
     authjwt_secret_key: str = Container().auth["secret_key"]
 
 
-class RegAuthModel(BaseModel):
+class RegModel(BaseModel):
     id_role: int
+    number: str
     login: str
+    password: str
+
+
+class AuthModel(BaseModel):
+    id_role: int
+    number: str
     password: str
 
 
@@ -32,6 +39,7 @@ class ItemModel(BaseModel):
 
 class PersonModel(BaseModel):
     id_person: str = ""
+    number: str = ""
     login: str = ""
     role: int = 1
     favorite: list = []
@@ -49,7 +57,8 @@ class PersonModel(BaseModel):
             basket=None,
             favorite=None,
             orders=None,
-            reviews=None
+            reviews=None,
+            number: str = None
     ):
         if reviews is None:
             reviews = []
@@ -60,6 +69,7 @@ class PersonModel(BaseModel):
         if favorite is None:
             favorite = []
         print(self.favorite)
+        self.number = number
         self.id_person = id_person
         self.login = login
         self.role = id_role

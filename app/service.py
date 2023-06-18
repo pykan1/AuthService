@@ -14,11 +14,11 @@ class Service:
         self._repository = repository
 
     @middleware.handler_login
-    def register(self, user: RegAuthModel, db: Session):
+    def register(self, user: RegModel, db: Session):
         return self._repository.person_register(user, db)
 
     @middleware.handler_register
-    def login(self, user: RegAuthModel, person: PersonResponse, db: Session):
+    def login(self, user: AuthModel, person: PersonResponse, db: Session):
         return self._repository.person_login(user=user, person=person, db=db)
 
     def update_access_token(self, refresh_token, db: Session):

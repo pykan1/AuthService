@@ -19,10 +19,10 @@ class Repository:
         self._passwordRepository = Password()
         self._personResponse = PersonResponse()
 
-    def person_login(self, user: RegAuthModel, person, db: Session):
+    def person_login(self, user: AuthModel, person, db: Session):
         # person - кортеж из 3 объектов таблица Person, PersonItems, Token
         new_access_token = self._tokenRepository.create_access_token(
-            login=user.login,
+            login=person[0].login,
             id_role=person[0].id_role,
             uuid=str(person[0].id_person)
         )
@@ -37,6 +37,7 @@ class Repository:
 
         self._personResponse.person = self._loginRepository.login_user(
             user=user,
+            login=person[0].login,
             access_token=new_access_token,
             id_person=person[0].id_person,
             basket=person[1].basket,
@@ -47,7 +48,7 @@ class Repository:
 
         return self._personResponse
 
-    def person_register(self, user: RegAuthModel, db: Session):
+    def person_register(self, user: RegModel, db: Session):
         id_person = self._registerRepository.create_id()
         password = self._passwordRepository.create_password(user.password)
         access_token = self._tokenRepository.create_access_token(
@@ -79,10 +80,11 @@ class Repository:
 
     def update_access_token(self, refresh_token, db: Session) -> str:
         data = self._tokenRepository.get_token_data(refresh_token)
-        new_access_token = self._tokenRepository.create_access_token(login=data["sub"],
-                                                                     id_role=data["id_role"],
-                                                                     uuid=data["uuid"]
-                                                                     )
+        new_access_token = self._tokenRepository.create_access_token(
+            login=data["sub"],
+            id_role=data["id_role"],
+            uuid=data["uuid"]
+        )
 
         self._databaseRepository.update_access_token(
             refresh_token=refresh_token,

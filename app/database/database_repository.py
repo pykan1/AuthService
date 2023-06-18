@@ -42,6 +42,7 @@ class DatabaseRepository:
     def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str, db: Session) -> None:
         db.add(Person(
             id_person=id_person,
+            number=p.number,
             login=p.login,
             id_role=p.role,
             user_password=password
@@ -73,12 +74,22 @@ class DatabaseRepository:
         )
 
     @staticmethod
+    def get_person_by_number(num: str, db: Session):
+        return (
+            db
+            .query(Person, PersonItems, Token)
+            .join(Token, Person.id_person == Token.id_person)
+            .join(PersonItems, Person.id_person == PersonItems.id_person)
+            .filter(Person.number == num).first()
+        )
+
+    @staticmethod
     def get_all_field(id_person):
         return
 
     def update_access_token(self, refresh_token: str, new_access_token: str, db: Session) -> None:
-            id_person = self.get_id_person(refresh_token, db)
-            db.query(Token).filter_by(id_person=id_person).update({
-                "access_token": new_access_token
-            })
-            db.commit()
+        id_person = self.get_id_person(refresh_token, db)
+        db.query(Token).filter_by(id_person=id_person).update({
+            "access_token": new_access_token
+        })
+        db.commit()
