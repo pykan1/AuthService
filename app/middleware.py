@@ -1,8 +1,5 @@
-import datetime
-
 from database.database_repository import DatabaseRepository
 from fastapi import HTTPException
-import time
 
 from password.password_repository import Password
 
@@ -12,7 +9,7 @@ class Middleware:
         self._databaseRepository: DatabaseRepository = DatabaseRepository()
         self._passwordRepository: Password = Password()
 
-    def handler_login(self, function):
+    def handler_register(self, function):
         def output(*args):
             person = self._databaseRepository.get_person_by_login(args[1].login, args[2])
             if person:
@@ -21,7 +18,7 @@ class Middleware:
                 return function(*args)
         return output
 
-    def handler_register(self, function):
+    def handler_login(self, function):
         def output(*args):
             person = self._databaseRepository.get_person_by_number(args[1].number, args[2])
             if not person:

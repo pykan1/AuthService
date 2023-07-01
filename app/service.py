@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from middleware import Middleware
 from model import *
 from repository import Repository
-import time
 
 
 class Service:
@@ -13,11 +12,11 @@ class Service:
     def __init__(self, repository: Repository):
         self._repository = repository
 
-    @middleware.handler_login
+    @middleware.handler_register
     def register(self, user: RegModel, db: Session):
         return self._repository.person_register(user, db)
 
-    @middleware.handler_register
+    @middleware.handler_login
     def login(self, user: AuthModel, person: PersonResponse, db: Session):
         return self._repository.person_login(user=user, person=person, db=db)
 

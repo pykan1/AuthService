@@ -92,12 +92,12 @@ class Repository:
             new_access_token=new_access_token,
             db=db
         )
-
         return new_access_token
 
     @staticmethod
     def check_person_number(db: Session, number: str) -> bool:
-        query = db.query(Person).filter_by(number=number)
-        if query is None:
+        query = db.query(Person).filter_by(number=number).all()
+        print(f"ааааа {query}  {type(query)}")
+        if not query:
             return False
         return True

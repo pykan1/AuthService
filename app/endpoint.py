@@ -49,6 +49,6 @@ async def new_access_token(
 async def check_number(
         body: NumberModel,
         db: Session = Depends(DatabaseRepository().get_db),
-        service: Service = Depends(Service)
 ):
-    return service.check_number(body.number)
+    service = Service(Repository())
+    return service.check_number(db, body.number)
