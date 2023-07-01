@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from Auth.login_repository import LoginRepository
 from Auth.register_repository import RegisterRepository
 from Token.token_repository import TokenRepository
+from database.database_model import Person
 from database.database_repository import DatabaseRepository
 from model import *
 from password.password_repository import Password
@@ -93,3 +94,10 @@ class Repository:
         )
 
         return new_access_token
+
+    @staticmethod
+    def check_person_number(db: Session, number: str) -> bool:
+        query = db.query(Person).filter_by(number=number)
+        if query is None:
+            return False
+        return True

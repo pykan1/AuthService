@@ -9,6 +9,14 @@ class Settings(BaseModel):
     authjwt_secret_key: str = Container().auth["secret_key"]
 
 
+class RefreshTokenModel(BaseModel):
+    refresh_token: str = ""
+
+
+class NumberModel(BaseModel):
+    number: str
+
+
 class RegModel(BaseModel):
     id_role: int
     number: str

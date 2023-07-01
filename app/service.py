@@ -23,3 +23,6 @@ class Service:
 
     def update_access_token(self, refresh_token, db: Session):
         return self._repository.update_access_token(refresh_token, db)
+
+    def check_number(self, db: Session, number: str):
+        return self._repository.check_person_number(db, number)
