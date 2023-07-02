@@ -18,7 +18,7 @@ class Repository:
         self._loginRepository = LoginRepository()
         self._databaseRepository = DatabaseRepository()
         self._passwordRepository = Password()
-        self._personResponse = PersonResponse()
+        self._personResponse = PersonModel()
 
     def person_login(self, user: AuthModel, person, db: Session):
         # person - кортеж из 3 объектов таблица Person, PersonItems, Token
@@ -34,9 +34,7 @@ class Repository:
             db=db
         )
 
-        self._personResponse.refresh_token = person[2].refresh_token
-
-        self._personResponse.person = self._loginRepository.login_user(
+        self._personResponse = self._loginRepository.login_user(
             user=user,
             login=person[0].login,
             access_token=new_access_token,
@@ -44,7 +42,8 @@ class Repository:
             basket=person[1].basket,
             favorite=person[1].favorite,
             reviews=person[1].reviews,
-            orders=person[1].reviews
+            orders=person[1].reviews,
+            refresh_token=person[2].refresh_token
         )
 
         return self._personResponse
@@ -58,22 +57,21 @@ class Repository:
             uuid=str(id_person)
         )
 
-        self._personResponse.refresh_token = self._tokenRepository.create_refresh_token(
-            login=user.login,
-            id_role=user.id_role,
-            uuid=str(id_person)
-        )
-        self._personResponse.person = self._registerRepository.register(
+        self._personResponse = self._registerRepository.register(
             user=user,
             id_person=id_person,
-            access_token=access_token
+            access_token=access_token,
+            refresh_token=self._tokenRepository.create_refresh_token(
+                login=user.login,
+                id_role=user.id_role,
+                uuid=str(id_person)
+            )
         )
 
         self._databaseRepository.new_person(
             id_person=id_person,
-            p=self._personResponse.person,
+            p=self._personResponse,
             password=password,
-            refresh_token=self._personResponse.refresh_token,
             db=db
         )
 

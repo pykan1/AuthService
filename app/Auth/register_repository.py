@@ -6,13 +6,14 @@ import uuid
 
 class RegisterRepository(PersonModel):
 
-    def register(self, user: RegModel, access_token, id_person, basket=None, favorite=None) -> PersonModel:
+    def register(self, user: RegModel, access_token, id_person, refresh_token, basket=None, favorite=None) -> PersonModel:
         print(user.number)
         self.get_model(
             id_person=id_person,
             login=user.login,
             id_role=user.id_role,
             access_token=access_token,
+            refresh_token=refresh_token,
             basket=basket,
             favorite=favorite,
             number=user.number

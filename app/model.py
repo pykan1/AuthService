@@ -55,6 +55,7 @@ class PersonModel(BaseModel):
     orders: list = []
     reviews: list = []
     access_token: str = ""
+    refresh_token: str = ""
 
     def get_model(
             self,
@@ -62,6 +63,7 @@ class PersonModel(BaseModel):
             login: str,
             id_role: int,
             access_token: str,
+            refresh_token: str,
             basket=None,
             favorite=None,
             orders=None,
@@ -81,6 +83,7 @@ class PersonModel(BaseModel):
         self.id_person = id_person
         self.login = login
         self.role = id_role
+        self.refresh_token = refresh_token
         self.access_token = access_token
         self.basket = basket
         self.favorite = favorite
@@ -88,6 +91,3 @@ class PersonModel(BaseModel):
         self.orders = orders
 
 
-class PersonResponse(BaseModel):
-    person: PersonModel | None
-    refresh_token: str | None

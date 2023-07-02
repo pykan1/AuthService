@@ -39,7 +39,7 @@ class DatabaseRepository:
             # не дописано
 
     @staticmethod
-    def new_person(p: PersonModel, password: str, refresh_token: str, id_person: str, db: Session) -> None:
+    def new_person(p: PersonModel, password: str, id_person: str, db: Session) -> None:
         db.add(Person(
             id_person=id_person,
             number=p.number,
@@ -54,7 +54,7 @@ class DatabaseRepository:
         ))
         db.add(Token(
             id_person=id_person,
-            refresh_token=refresh_token,
+            refresh_token=p.refresh_token,
             access_token=p.access_token
         ))
         db.commit()

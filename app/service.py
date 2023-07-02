@@ -17,7 +17,7 @@ class Service:
         return self._repository.person_register(user, db)
 
     @middleware.handler_login
-    def login(self, user: AuthModel, person: PersonResponse, db: Session):
+    def login(self, user: AuthModel, person: PersonModel, db: Session):
         return self._repository.person_login(user=user, person=person, db=db)
 
     def update_access_token(self, refresh_token, db: Session):
